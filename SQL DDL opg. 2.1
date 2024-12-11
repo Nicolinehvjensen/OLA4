@@ -1,0 +1,38 @@
+DDL for car_database.Car:
+
+CREATE TABLE `Car` (
+  `carid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `makemodel` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `details` text COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dealer_id` bigint unsigned DEFAULT NULL,
+  `link` text COLLATE utf8mb4_unicode_ci,
+  PRIMARY KEY (`carid`),
+  KEY `fk_dealer_id_new` (`dealer_id`),
+  CONSTRAINT `fk_dealer_id_new` FOREIGN KEY (`dealer_id`) REFERENCES `Dealer` (`dealer_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+
+DDL for car_database.Dealer:
+
+CREATE TABLE `Dealer` (
+  `dealer_id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `dealerLogo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`dealer_id`),
+  UNIQUE KEY `dealer_id` (`dealer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=636 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+
+DDL for car_database.Price:
+
+CREATE TABLE `Price` (
+  `price_id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `carid` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `scrapedate` date DEFAULT NULL,
+  `sold` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`price_id`),
+  UNIQUE KEY `price_id` (`price_id`),
+  KEY `fk_car_id` (`carid`),
+  CONSTRAINT `fk_car_id` FOREIGN KEY (`carid`) REFERENCES `Car` (`carid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
